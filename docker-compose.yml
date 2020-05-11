@@ -1,0 +1,18 @@
+version: '3'
+services:
+  api-test:
+    image: payroll-api-tests
+    network_mode: host
+    depends_on:
+      - payroll
+    # run the api tests
+    environment:
+      WAIT_HOSTS: payroll:8080
+    command: mvn clean install
+  payroll:
+    image: payroll-app
+    # bind the ports
+    ports:
+        - 8080:8080
+    # run the api
+    command: mvn spring-boot:run
